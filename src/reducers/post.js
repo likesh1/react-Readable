@@ -1,9 +1,9 @@
-import {GET_POST, VOTE_INCREAMENT_DECREMENT} from '../actions/postAction'
+import {GET_POST, CHANGE_ORDER, VOTE_INCREAMENT_DECREMENT} from '../actions/postAction'
+import _ from 'lodash'
 
 export default function (state = [], action) {
     switch (action.type) {
         case GET_POST:
-            console.log(action.payload.data);
             return [action.payload.data, ...state];
         case VOTE_INCREAMENT_DECREMENT:
             return [state[0].map((data) => {
@@ -12,7 +12,10 @@ export default function (state = [], action) {
                 } else {
                     return data
                 }
-            })]
+            })];
+        case CHANGE_ORDER:
+            console.log([_.sortBy(state[0].reverse(), `${action.payload}`)])
+            return [_.sortBy(state[0], [`${action.payload}`])]
 
 
     }

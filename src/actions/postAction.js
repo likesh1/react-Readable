@@ -2,6 +2,7 @@ import axios from 'axios'
 
 export const GET_POST = "GET_POST";
 export const VOTE_INCREAMENT_DECREMENT = "VOTE_INCREAMENT_DECREMENT";
+export const CHANGE_ORDER = 'CHANGE_ORDER'
 export const AUTH_HEADERS = {'Authorization': 'whatever-you-want', 'Accept': 'application/json',};
 export const ROOT_URL = "http://localhost:3001";
 axios.defaults.headers.common['Authorization'] = AUTH_HEADERS;
@@ -22,5 +23,12 @@ export function votesIncreaseDecrease(id, voteType) {
     return {
         type: VOTE_INCREAMENT_DECREMENT,
         payload: request
+    }
+}
+
+export function changeOrder(postList) {
+    return {
+        type: CHANGE_ORDER,
+        payload: postList
     }
 }
