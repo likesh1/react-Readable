@@ -29,7 +29,7 @@ class PostsList extends Component {
 
     render() {
 
-        if (_.isEmpty(this.props.posts[0])) {
+        if (this.props.posts.length === 0 ) {
             return <div className="card">NO cards to show</div>
         } else {
             return (
