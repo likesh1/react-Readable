@@ -6,6 +6,7 @@ import {getCategoryList} from '../actions/categoryAction'
 import {listByName} from '../actions/postAction'
 import {changeOrder} from '../actions/postAction'
 import {connect} from 'react-redux'
+import CategoryList from './categoryList'
 import {timestampToDate} from '../utils/dateChanger'
 import TiThumbsDown from 'react-icons/lib/ti/thumbs-down'
 import TiThumbsUp from 'react-icons/lib/ti/thumbs-up'
@@ -17,34 +18,46 @@ class PostsList extends Component {
         this.props.getCategoryList();
     }
 
-    renderCategoryList(listCategory) {
-        console.log(listCategory[0])
-
-        const x = listCategory[0].categories.map((data) =>
-            <li onClick={event => this.props.listByName(data.name)} key={data.name}>
-                {data.name.toUpperCase()}
-            </li>)
-        return x
-    }
-
     render() {
-
-        if (this.props.posts.length === 0 ) {
-            return <div className="card">NO cards to show</div>
+        console.log(this.props.posts[0]);
+        console.log(_.isEmpty(this.props.posts[0]));
+        if (_.isEmpty(this.props.posts[0])) {
+            return (<div className='body-styling'>
+                <div className='side-content'>
+                    <div>
+                        <ul className="w3-ul w3-card w3-hoverable">
+                            <CategoryList
+                                category={this.props.category}/>
+                        </ul>
+                    </div>
+                </div>
+                <div className='main-content'>
+                    <div className='sort-dropdown'>
+                        Sort By: <select onChange={event => {
+                        this.props.changeOrder(event.target.value)
+                    }}>
+                        <option value='voteScore'>Vote</option>
+                        <option value='timestamp'>Dates</option>
+                    </select>
+                    </div>
+                    <div className='card-up'>
+                        <div className="card">NO cards to show</div>
+                    </div>
+                </div>
+            </div>)
         } else {
             return (
-
                 <div className='body-styling'>
                     <div className='side-content'>
                         <div>
                             <ul className="w3-ul w3-card w3-hoverable">
-                                <li onClick={event => this.props.getPosts()} value='0'>All</li>
-                                {this.renderCategoryList(this.props.category)}
+                                <CategoryList
+                                    category={this.props.category}/>
                             </ul>
                         </div>
                     </div>
                     <div className='main-content'>
-                        <div>
+                        <div className='sort-dropdown'>
                             Sort By: <select onChange={event => {
                             this.props.changeOrder(event.target.value)
                         }}>
