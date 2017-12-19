@@ -7,6 +7,7 @@ import {listByName} from '../actions/postAction'
 import {changeOrder} from '../actions/postAction'
 import {connect} from 'react-redux'
 import CategoryList from './categoryList'
+import {Link} from 'react-router-dom'
 import {timestampToDate} from '../utils/dateChanger'
 import TiThumbsDown from 'react-icons/lib/ti/thumbs-down'
 import TiThumbsUp from 'react-icons/lib/ti/thumbs-up'
@@ -33,12 +34,17 @@ class PostsList extends Component {
                 </div>
                 <div className='main-content'>
                     <div className='sort-dropdown'>
-                        Sort By: <select onChange={event => {
-                        this.props.changeOrder(event.target.value)
-                    }}>
-                        <option value='voteScore'>Vote</option>
-                        <option value='timestamp'>Dates</option>
-                    </select>
+                        <div className='dropdown-sortlist'>Sort By: <select onChange={event => {
+                            this.props.changeOrder(event.target.value)
+                        }}>
+                            <option value='voteScore'>Vote</option>
+                            <option value='timestamp'>Dates</option>
+                        </select>
+                        </div>
+                        <div className='create-button'>
+                            <Link className='btn btn-success'
+                                  to='create'>Create Post</Link>
+                        </div>
                     </div>
                     <div className='card-up'>
                         <div className="card">NO cards to show</div>
@@ -58,12 +64,17 @@ class PostsList extends Component {
                     </div>
                     <div className='main-content'>
                         <div className='sort-dropdown'>
-                            Sort By: <select onChange={event => {
-                            this.props.changeOrder(event.target.value)
-                        }}>
-                            <option value='voteScore'>Vote</option>
-                            <option value='timestamp'>Dates</option>
-                        </select>
+                            <div className='dropdown-sortlist'>Sort By: <select onChange={event => {
+                                this.props.changeOrder(event.target.value)
+                            }}>
+                                <option value='voteScore'>Vote</option>
+                                <option value='timestamp'>Dates</option>
+                            </select>
+                            </div>
+                            <div className='create-button'>
+                                <Link className='btn btn-success'
+                                      to='create'>Create Post</Link>
+                            </div>
                         </div>
                         <div className='card-up'>
                             {this.props.posts[0].map((data) => (
@@ -83,7 +94,7 @@ class PostsList extends Component {
                                         </div>
                                         <div className='card-button'>
                                             <button className="btn btn-danger button-styling">Delete Post</button>
-                                            <button className="btn btn-success button-styling">Edit Post</button>
+                                            <Link className="btn btn-success button-styling" to='editPost'>Edit Post</Link>
                                             <div className='buttons-position'>
                                                 <TiThumbsUp
                                                     className='icon-size'

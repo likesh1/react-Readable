@@ -85,8 +85,24 @@
 
 .sort-dropdown {
     padding: 1em;
+    display: flex;
+    flex-wrap: nowrap;
 }
 
 .category-list {
+    text-align: center;
+}
+
+.dropdown-sortlist {
+    order: 0;
+    width: 50%;
+    text-align: start;
+}
+.create-button{
+    order: 1;
+    width: 50%;
+    text-align: end;
+}
+.classform-createlist{
     text-align: center;
 }
