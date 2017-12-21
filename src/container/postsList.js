@@ -1,6 +1,7 @@
 import React, {Component} from 'react';
 import {bindActionCreators} from 'redux';
 import {getPosts} from '../actions/postAction'
+import {deletePost} from '../actions/postAction'
 import {votesIncreaseDecrease} from '../actions/postAction'
 import {getCategoryList} from '../actions/categoryAction'
 import {listByName} from '../actions/postAction'
@@ -19,9 +20,13 @@ class PostsList extends Component {
         this.props.getCategoryList();
     }
 
+    deletePost(id) {
+        this.props.deletePost(id);
+        // this.props.history.push('/');
+    }
+
     render() {
         console.log(this.props.posts[0]);
-        console.log(_.isEmpty(this.props.posts[0]));
         if (_.isEmpty(this.props.posts[0])) {
             return (<div className='body-styling'>
                 <div className='side-content'>
@@ -93,8 +98,12 @@ class PostsList extends Component {
                                             </section>
                                         </div>
                                         <div className='card-button'>
-                                            <button className="btn btn-danger button-styling">Delete Post</button>
-                                            <Link className="btn btn-success button-styling" to='editPost'>Edit Post</Link>
+                                            <button className="btn btn-danger button-styling"
+                                                    onClick={() => this.deletePost(data.id)}
+                                            >Delete Post
+                                            </button>
+                                            <Link className="btn btn-success button-styling" to='editPost'>Edit
+                                                Post</Link>
                                             <div className='buttons-position'>
                                                 <TiThumbsUp
                                                     className='icon-size'
@@ -135,6 +144,7 @@ function mapDispatchToProps(dipatch) {
         votesIncreaseDecrease: votesIncreaseDecrease,
         changeOrder: changeOrder,
         listByName: listByName,
+        deletePost: deletePost,
         getCategoryList: getCategoryList
     }, dipatch);
 }

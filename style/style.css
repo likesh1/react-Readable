@@ -98,11 +98,17 @@
     width: 50%;
     text-align: start;
 }
-.create-button{
+
+.create-button {
     order: 1;
     width: 50%;
     text-align: end;
 }
-.classform-createlist{
+
+.classform-createlist {
     text-align: center;
+}
+
+.red {
+    color: red;
 }
