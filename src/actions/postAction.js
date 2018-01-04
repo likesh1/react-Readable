@@ -1,6 +1,8 @@
 import axios from 'axios'
+import {guid} from '../utils/guid'
 
 export const GET_POST = "GET_POST";
+export const CREATE_POST = "CREATE_POST";
 export const VOTE_INCREAMENT_DECREMENT = "VOTE_INCREAMENT_DECREMENT";
 export const CHANGE_ORDER = 'CHANGE_ORDER'
 export const DELETE_LIST_ITEM = 'DELETE_LIST_ITEM'
@@ -45,13 +47,31 @@ export function listByName(name) {
 }
 
 export function deletePost(id) {
-    // console.log(id)
     const url = `${ROOT_URL}/posts/${id}`
-    // console.log(url)
     const request = axios.delete(url);
-    // console.log(request)
     return {
         type: DELETE_LIST_ITEM,
+        payload: request
+    }
+}
+
+export function createPost(values, callback) {
+    console.log(values)
+    const {title, content, author, category} = values;
+
+    const data = {
+        id: guid(),
+        timestamp: Date.now(),
+        title,
+        content,
+        author,
+        category
+    }
+    const url = `${ROOT_URL}/posts`
+    const request = axios.post(url, data)
+        .then(() => callback());
+    return {
+        type: CREATE_POST,
         payload: request
     }
 }

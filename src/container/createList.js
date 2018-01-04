@@ -1,8 +1,17 @@
 import React, {Component} from 'react';
 import {Field, reduxForm} from 'redux-form'
+import {createPost} from '../actions/postAction'
+import {connect} from 'react-redux'
+import {bindActionCreators} from 'redux';
+import {browserHistory} from 'react-router'
+import {withRouter} from 'react-router'
+import {Redirect} from 'react-router-dom'
+
 
 class CreateList extends Component {
-
+    state = {
+        redirectToNewPage: false
+    }
 
     renderField(field) {
         const className = `form-group ${field.meta.touched && field.meta.error ? 'has-danger' : ''}`
@@ -45,13 +54,24 @@ class CreateList extends Component {
     }
 
     onSubmit(values) {
-        console.log(values)
+        console.log(values);
+        // this.props.history.push(`/`);
+        this.props.createPost(values, () => {
+            // this.props.router.push('/');
+            this.setState({ redirectToNewPage: true })
+        });
+
     }
 
 
     colors = ['react', 'redux', 'udacity'];
 
     render() {
+        if (this.state.redirectToNewPage) {
+            return (
+                <Redirect to="/"/>
+            )
+        }
 
         const {handleSubmit} = this.props;
         return (
@@ -99,7 +119,16 @@ function validate(values) {
 
 }
 
+function mapDispatchToProps(dipatch) {
+    return bindActionCreators({
+        createPost: createPost
+    }, dipatch);
+}
+
 export default reduxForm({
     validate: validate,
     form: 'PostsNewForm'
-})(CreateList);
+})(
+    connect(null, mapDispatchToProps)(CreateList)
+)
+
