@@ -3,8 +3,6 @@ import {Field, reduxForm} from 'redux-form'
 import {createPost} from '../actions/postAction'
 import {connect} from 'react-redux'
 import {bindActionCreators} from 'redux';
-import {browserHistory} from 'react-router'
-import {withRouter} from 'react-router'
 import {Redirect} from 'react-router-dom'
 
 

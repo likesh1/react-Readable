@@ -1,4 +1,7 @@
-import {GET_POST, LIST_UPDATE, CHANGE_ORDER, VOTE_INCREAMENT_DECREMENT, DELETE_LIST_ITEM} from '../actions/postAction'
+import {
+    GET_POST, LIST_UPDATE, CHANGE_ORDER, VOTE_INCREAMENT_DECREMENT, DELETE_LIST_ITEM,
+    EDIT_LIST_ITEM
+} from '../actions/postAction'
 import _ from 'lodash'
 
 export default function (state = [], action) {
@@ -27,6 +30,9 @@ export default function (state = [], action) {
             );
             console.log(x);
             return [x];
+        case EDIT_LIST_ITEM:
+            console.log(action.payload.data)
+            return [action.payload.data]
     }
     return state;
 }

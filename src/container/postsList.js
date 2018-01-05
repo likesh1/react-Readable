@@ -1,6 +1,7 @@
 import React, {Component} from 'react';
 import {bindActionCreators} from 'redux';
 import {getPosts} from '../actions/postAction'
+import {editPost} from '../actions/postAction'
 import {deletePost} from '../actions/postAction'
 import {votesIncreaseDecrease} from '../actions/postAction'
 import {getCategoryList} from '../actions/categoryAction'
@@ -9,12 +10,17 @@ import {changeOrder} from '../actions/postAction'
 import {connect} from 'react-redux'
 import CategoryList from './categoryList'
 import {Link} from 'react-router-dom'
+import {Redirect} from 'react-router-dom'
 import {timestampToDate} from '../utils/dateChanger'
 import TiThumbsDown from 'react-icons/lib/ti/thumbs-down'
 import TiThumbsUp from 'react-icons/lib/ti/thumbs-up'
 import _ from 'lodash'
 
 class PostsList extends Component {
+    state = {
+        redirectToNewPage: false
+    }
+
     componentWillMount() {
         this.props.getPosts();
         this.props.getCategoryList();
@@ -25,7 +31,20 @@ class PostsList extends Component {
         // this.props.history.push('/');
     }
 
+    editPost(id) {
+        console.log(id)
+        this.props.editPost(id)
+        // this.props.router.push('/');
+        this.setState({redirectToNewPage: true})
+
+    }
+
     render() {
+        if (this.state.redirectToNewPage) {
+            return (
+                <Redirect to="/editPost"/>
+            )
+        }
         console.log(this.props.posts[0]);
         if (_.isEmpty(this.props.posts[0])) {
             return (<div className='body-styling'>
@@ -102,8 +121,10 @@ class PostsList extends Component {
                                                     onClick={() => this.deletePost(data.id)}
                                             >Delete Post
                                             </button>
-                                            <Link className="btn btn-success button-styling" to='editPost'>Edit
-                                                Post</Link>
+                                            <button className="btn btn-success button-styling"
+                                                    onClick={() => this.editPost(data.id)}>Edit
+                                                Post
+                                            </button>
                                             <div className='buttons-position'>
                                                 <TiThumbsUp
                                                     className='icon-size'
@@ -145,6 +166,7 @@ function mapDispatchToProps(dipatch) {
         changeOrder: changeOrder,
         listByName: listByName,
         deletePost: deletePost,
+        editPost: editPost,
         getCategoryList: getCategoryList
     }, dipatch);
 }

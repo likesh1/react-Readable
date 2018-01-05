@@ -6,6 +6,7 @@ export const CREATE_POST = "CREATE_POST";
 export const VOTE_INCREAMENT_DECREMENT = "VOTE_INCREAMENT_DECREMENT";
 export const CHANGE_ORDER = 'CHANGE_ORDER'
 export const DELETE_LIST_ITEM = 'DELETE_LIST_ITEM'
+export const EDIT_LIST_ITEM = 'EDIT_LIST_ITEM'
 export const LIST_UPDATE = 'LIST_UPDATE'
 export const AUTH_HEADERS = {'Authorization': 'whatever-you-want', 'Accept': 'application/json',};
 export const ROOT_URL = "http://localhost:3001";
@@ -20,6 +21,7 @@ export function getPosts() {
     }
 
 }
+
 
 export function votesIncreaseDecrease(id, voteType) {
     const url = `${ROOT_URL}/posts/${id}`
@@ -51,6 +53,17 @@ export function deletePost(id) {
     const request = axios.delete(url);
     return {
         type: DELETE_LIST_ITEM,
+        payload: request
+    }
+}
+
+export function editPost(id) {
+    console.log(id)
+    const url = `${ROOT_URL}/posts/${id}`
+    const request = axios.get(url)
+    console.log(request)
+    return {
+        type: EDIT_LIST_ITEM,
         payload: request
     }
 }
