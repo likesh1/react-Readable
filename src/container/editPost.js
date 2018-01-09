@@ -3,71 +3,139 @@ import {Link} from 'react-router-dom';
 import {connect} from 'react-redux'
 import {Field, reduxForm} from 'redux-form'
 import {bindActionCreators} from 'redux';
-
+import {editPost} from '../actions/postAction'
+import {putEditPost} from '../actions/postAction'
+import serializeForm from 'form-serialize'
+import {Redirect} from 'react-router-dom'
 
 class EditList extends Component {
-    onSubmit(values) {
-        console.log(values);
-        // this.props.history.push(`/`);
-        // this.props.createPost(values, () => {
-        //     // this.props.router.push('/');
-        //     this.setState({ redirectToNewPage: true })
-        // });
 
+    state = {
+        title: '',
+        content: '',
+        author: '',
+        errortitle: '',
+        errorContent: '',
+        redirectToNewPage: false
     }
 
+    componentWillMount() {
+        console.log(this.props);
+        const {match: {params}} = this.props;
+        this.props.editPost(params.id);
+    }
 
-    renderField(field) {
-        console.log(field)
-        const className = `form-group ${field.meta.touched && field.meta.error ? 'has-danger' : ''}`
-        const className1 = 'red'
-        return (
-            <div className={className}>
-                <label>{field.label}</label>
-                <input
-                    className='form-control'
-                    type='text'
-                    {...field.input}
-                    value={field.name}
-                />
-                <div className={className1}>
-                    {field.meta.touched ? field.meta.error : ''}
-                </div>
+    componentWillReceiveProps(nextProps) {
+        if (this.props.posts[0] !== nextProps.posts) {
+            this.setState({title: nextProps.posts[0].title})
+            this.setState({content: nextProps.posts[0].body})
+            this.setState({author: nextProps.posts[0].author})
+        }
+    }
 
-            </div>
-        )
+    handleSubmit = (e) => {
+        e.preventDefault();
+        const values = serializeForm(e.target, {hash: true});
+        if (!values.title) {
+            this.setState({
+                errortitle: 'Enter the title'
+            })
+        } else {
+            this.setState({
+                errortitle: ''
+            })
+        }
+        if (!values.body) {
+            this.setState({
+                errorContent: 'Enter the content'
+            })
+        } else {
+            this.setState({
+                errorContent: ''
+            })
+        }
+        if (values.title && values.body) {
+            const {match: {params}} = this.props;
+            console.log('valid')
+            const id = params.id
+            this.props.putEditPost(id, values, () => {
+                // this.props.router.push('/');
+                this.props.history.replace('/');
+                //   this.setState({redirectToNewPage: true})
+            });
+        }
+    }
+
+    settingValuesTitle(event) {
+        this.setState({title: event})
+    }
+
+    settingValuesContent(event) {
+        this.setState({content: event})
     }
 
 
     render() {
-        console.log(this.props.posts)
+        if (this.state.redirectToNewPage) {
+            return (
+                <Redirect to="/"/>
+            )
+        }
+        if (this.props.posts[0]) {
 
-        const {handleSubmit} = this.props;
-        if (this.props.posts.length !== 0) {
-            const {title, content, author} = this.props.posts[0]
+            // console.log(this.props.posts[0])
+            // console.log(this.props.posts[0].title)
 
             return (
 
-                <form onSubmit={handleSubmit(this.onSubmit.bind(this))}>
-                    <Field
-                        label='Title'
-                        name={title}
-                        component={this.renderField}
-                    />
-                    <Field
-                        label='Content'
-                        name={content}
-                        component={this.renderField}
-                    />
-                    <Field
-                        label='Author'
-                        name={author}
-                        component={this.renderField}
-                    />
-                    <button type='sumbit' className='btn btn-success'>Submit</button>
+                <form onSubmit={this.handleSubmit}>
+                    <div>
+                        <label>Title</label>
+                        <div>
+                            <input
+                                name='title'
+                                className='form-control'
+                                // required={}
+                                value={this.state.title}
+                                onChange={event => {
+                                    this.settingValuesTitle(event.target.value, event.target.name)
+                                }}
+                            />
+                            <div className="red">
+                                {this.state.errortitle}
+                            </div>
+                        </div>
+
+                    </div>
+                    <div>
+                        <label>Content</label>
+                        <div>
+                            <input
+                                name='body'
+                                className='form-control'
+                                value={this.state.content}
+                                onChange={event => {
+                                    this.settingValuesContent(event.target.value, event.target.name)
+                                }}
+                            />
+                        </div>
+                        <div className="red">
+                            {this.state.errorContent}
+                        </div>
+                    </div>
+                    <div>
+                        <label>Author</label>
+                        <div>
+                            <p>{this.state.author}</p>
+                        </div>
+                        <button>Submit</button>
+                    </div>
+
                 </form>
+
             )
         } else {
+
             return (
                 <div> loading</div>
             )
@@ -76,33 +144,18 @@ class EditList extends Component {
 
 }
 
-function validate(values) {
-    const error = {}
-    if (!values.title) {
-        error.title = 'Enter the title';
-    }
-    if (!values.content) {
-        error.content = 'Enter the content';
-    }
-    if (!values.author) {
-        error.author = 'Enter the author';
-    }
-    return error;
-
-}
 
 function mapStateToProps(state) {
     return {
-        title: state.posts,
+        posts: state.posts,
     }
 }
 
-export default reduxForm({
-    validate: validate,
-    form: 'PostsEditForm',
-    // initialValues: {
-    //     title: title,
-    //     content: this.content,
-    //     author: this.author
-    // }
-})(connect(mapStateToProps)(EditList));
+function mapDispatchToProps(dipatch) {
+    return bindActionCreators({
+        editPost: editPost,
+        putEditPost: putEditPost
+    }, dipatch);
+}
+
+export default (connect(mapStateToProps, mapDispatchToProps)(EditList));

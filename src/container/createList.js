@@ -4,9 +4,14 @@ import {createPost} from '../actions/postAction'
 import {connect} from 'react-redux'
 import {bindActionCreators} from 'redux';
 import {Redirect} from 'react-router-dom'
+import {Link} from 'react-router-dom'
 
 
 class CreateList extends Component {
+    componentWillMount() {
+        console.log(this.props)
+    }
+
     state = {
         redirectToNewPage: false
     }
@@ -53,23 +58,15 @@ class CreateList extends Component {
 
     onSubmit(values) {
         console.log(values);
-        // this.props.history.push(`/`);
         this.props.createPost(values, () => {
-            // this.props.router.push('/');
-            this.setState({ redirectToNewPage: true })
+            this.props.history.push('/')
         });
-
     }
 
 
     colors = ['react', 'redux', 'udacity'];
 
     render() {
-        if (this.state.redirectToNewPage) {
-            return (
-                <Redirect to="/"/>
-            )
-        }
 
         const {handleSubmit} = this.props;
         return (

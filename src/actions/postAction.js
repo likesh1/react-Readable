@@ -8,6 +8,7 @@ export const CHANGE_ORDER = 'CHANGE_ORDER'
 export const DELETE_LIST_ITEM = 'DELETE_LIST_ITEM'
 export const EDIT_LIST_ITEM = 'EDIT_LIST_ITEM'
 export const LIST_UPDATE = 'LIST_UPDATE'
+export const PUT_EDIT_POST = 'PUT_EDIT_POST'
 export const AUTH_HEADERS = {'Authorization': 'whatever-you-want', 'Accept': 'application/json',};
 export const ROOT_URL = "http://localhost:3001";
 axios.defaults.headers.common['Authorization'] = AUTH_HEADERS;
@@ -65,6 +66,19 @@ export function editPost(id) {
     return {
         type: EDIT_LIST_ITEM,
         payload: request
+    }
+}
+
+export function putEditPost(id, params, callback) {
+    console.log(id);
+    console.log(params);
+    const url = `${ROOT_URL}/posts/${id}`
+    const request = axios.put(url, params)
+        .then(() => callback());
+    console.log(request);
+    return{
+        type:PUT_EDIT_POST,
+        payload:request
     }
 }
 

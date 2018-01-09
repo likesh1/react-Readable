@@ -32,7 +32,8 @@ export default function (state = [], action) {
             return [x];
         case EDIT_LIST_ITEM:
             console.log(action.payload.data)
-            return [action.payload.data]
+            return [action.payload.data];
+            
     }
     return state;
 }

@@ -17,10 +17,6 @@ import TiThumbsUp from 'react-icons/lib/ti/thumbs-up'
 import _ from 'lodash'
 
 class PostsList extends Component {
-    state = {
-        redirectToNewPage: false
-    }
-
     componentWillMount() {
         this.props.getPosts();
         this.props.getCategoryList();
@@ -31,20 +27,13 @@ class PostsList extends Component {
         // this.props.history.push('/');
     }
 
-    editPost(id) {
-        console.log(id)
-        this.props.editPost(id)
-        // this.props.router.push('/');
-        this.setState({redirectToNewPage: true})
+    toEditPost(id) {
+        this.props.history.push('/editPost/' + id)
 
     }
 
+
     render() {
-        if (this.state.redirectToNewPage) {
-            return (
-                <Redirect to="/editPost"/>
-            )
-        }
         console.log(this.props.posts[0]);
         if (_.isEmpty(this.props.posts[0])) {
             return (<div className='body-styling'>
@@ -122,7 +111,7 @@ class PostsList extends Component {
                                             >Delete Post
                                             </button>
                                             <button className="btn btn-success button-styling"
-                                                    onClick={() => this.editPost(data.id)}>Edit
+                                                    onClick={() => this.toEditPost(data.id)}>Edit
                                                 Post
                                             </button>
                                             <div className='buttons-position'>
