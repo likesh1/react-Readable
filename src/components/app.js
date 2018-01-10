@@ -3,6 +3,7 @@ import PostsList from "../container/postsList";
 import {Switch, Route} from 'react-router-dom'
 import CreateList from "../container/createList";
 import EditList from "../container/editPost";
+import ViewPost from '../container/viewPost'
 
 export default class App extends Component {
     render() {
@@ -20,6 +21,14 @@ export default class App extends Component {
                         )}
                     />
                     <Route
+                        path='/viewPost/:id'
+                        render={(props) =>
+                            <ViewPost
+                                {...props}
+                            />
+                        }
+                    />
+                    <Route
                         path='/create'
                         render={({history}) =>
                             <CreateList
@@ -32,7 +41,6 @@ export default class App extends Component {
                         render={(props) =>
                             <EditList
                                 {...props}
-                                // history={history}
                             />
                         }
                     />

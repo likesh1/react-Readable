@@ -78,7 +78,7 @@ class CreateList extends Component {
                 />
                 <Field
                     label='Content'
-                    name='content'
+                    name='body'
                     component={this.renderField}
                 />
                 <Field
@@ -101,8 +101,8 @@ function validate(values) {
     if (!values.title) {
         error.title = 'Enter the title';
     }
-    if (!values.content) {
-        error.content = 'Enter the content';
+    if (!values.body) {
+        error.body = 'Enter the body';
     }
     if (!values.author) {
         error.author = 'Enter the author';

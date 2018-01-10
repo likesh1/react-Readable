@@ -1,6 +1,6 @@
 import {
     GET_POST, LIST_UPDATE, CHANGE_ORDER, VOTE_INCREAMENT_DECREMENT, DELETE_LIST_ITEM,
-    EDIT_LIST_ITEM
+    EDIT_LIST_ITEM, PUT_EDIT_POST
 } from '../actions/postAction'
 import _ from 'lodash'
 
@@ -32,8 +32,21 @@ export default function (state = [], action) {
             return [x];
         case EDIT_LIST_ITEM:
             console.log(action.payload.data)
-            return [action.payload.data];
-            
+            return [action.payload.data]
+         case PUT_EDIT_POST:
+            console.log(state)
+            console.log(action)
+            console.log(action.payload)
+            console.log(action.y)
+            const y = state.filter(
+                function (value) {
+                    if (!(value.id === action.payload.data)) {
+                        return value;
+                    }
+                }
+            );
+            console.log(y);
+            return [y];
     }
     return state;
 }

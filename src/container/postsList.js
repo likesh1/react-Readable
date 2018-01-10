@@ -18,6 +18,7 @@ import _ from 'lodash'
 
 class PostsList extends Component {
     componentWillMount() {
+        console.log(this.props)
         this.props.getPosts();
         this.props.getCategoryList();
     }
@@ -25,6 +26,10 @@ class PostsList extends Component {
     deletePost(id) {
         this.props.deletePost(id);
         // this.props.history.push('/');
+    }
+
+    toViewPost(id) {
+        this.props.history.replace('/viewPost/' + id)
     }
 
     toEditPost(id) {
@@ -96,7 +101,7 @@ class PostsList extends Component {
                                     <div className="card-body">
 
                                         <div className='card-content'>
-                                            <h3>{data.title}</h3>
+                                            <div onClick={() => this.toViewPost(data.id)}>{data.title}</div>
                                             <h7 className='author-style'>Author: {data.author}</h7>
                                             <section className='body-style'>
                                                 {data.body}

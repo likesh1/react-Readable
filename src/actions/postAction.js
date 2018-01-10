@@ -23,7 +23,6 @@ export function getPosts() {
 
 }
 
-
 export function votesIncreaseDecrease(id, voteType) {
     const url = `${ROOT_URL}/posts/${id}`
     const request = axios.post(url, {option: voteType})
@@ -72,25 +71,30 @@ export function editPost(id) {
 export function putEditPost(id, params, callback) {
     console.log(id);
     console.log(params);
+    const {title,body}=params;
+    const data={
+        title,
+        body
+    }
     const url = `${ROOT_URL}/posts/${id}`
-    const request = axios.put(url, params)
+    const request = axios.put(url, data)
         .then(() => callback());
     console.log(request);
-    return{
-        type:PUT_EDIT_POST,
-        payload:request
-    }
+    // return{
+    //     type:PUT_EDIT_POST,
+    //     payload:request
+    // }
 }
 
 export function createPost(values, callback) {
     console.log(values)
-    const {title, content, author, category} = values;
+    const {title, body, author, category} = values;
 
     const data = {
         id: guid(),
         timestamp: Date.now(),
         title,
-        content,
+        body,
         author,
         category
     }
