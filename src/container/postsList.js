@@ -97,11 +97,11 @@ class PostsList extends Component {
                         <div className='card-up'>
                             {this.props.posts[0].map((data) => (
 
-                                <div className="card" onClick={() => this.toViewPost(data.id)} key={data.id}>
+                                <div className="card" key={data.id}>
                                     <div className="card-body">
 
                                         <div className='card-content'>
-                                            <div>{data.title}</div>
+                                            <div onClick={() => this.toViewPost(data.id)} >{data.title}</div>
                                             <h7 className='author-style'>Author: {data.author}</h7>
                                             <section className='body-style'>
                                                 {data.body}
