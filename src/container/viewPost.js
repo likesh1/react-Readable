@@ -1,19 +1,54 @@
 import React, {Component} from 'react';
 import {bindActionCreators} from 'redux';
 import {getComments} from '../actions/commentAction'
+import {deletePost} from '../actions/commentAction'
+import {votesIncreaseDecrease} from '../actions/commentAction'
+import {postEdit} from '../actions/commentAction'
 import {editPost} from '../actions/postAction'
 import {connect} from 'react-redux'
 import TiThumbsDown from 'react-icons/lib/ti/thumbs-down'
 import TiThumbsUp from 'react-icons/lib/ti/thumbs-up'
 import _ from 'lodash'
+import serializeForm from 'form-serialize'
 import {timestampToDate} from '../utils/dateChanger'
 
 class ViewPost extends Component {
+    state = {
+        errorAuthor: '',
+        errorContent: '',
+    }
+
     componentWillMount() {
         console.log(this.props);
         const {match: {params}} = this.props;
         this.props.editPost(params.id)
         this.props.getComments(params.id)
+    }
+
+
+    handleSubmit = (e) => {
+        e.preventDefault();
+        const values = serializeForm(e.target, {hash: true});
+        console.log(values)
+        if (!values.comment) {
+            this.setState({errorContent: 'Enter the comment'})
+        } else {
+            this.setState({errorContent: ''})
+        }
+        if (!values.author) {
+            this.setState({errorAuthor: 'Enter the author'})
+        } else {
+            this.setState({errorAuthor: ''})
+        }
+        if (values.comment && values.author) {
+            console.log('itishere')
+            const {match: {params}} = this.props;
+            this.props.postEdit(params.id, values.comment, values.author)
+        }
+    }
+
+    deletePost(id) {
+        this.props.deletePost(id);
     }
 
     render() {
@@ -35,35 +70,59 @@ class ViewPost extends Component {
                         {this.props.comment[0].map((data) => (
                             <div className="card" key={data.id}>
                                 <div className="card-body">
-
-                                    <div className='card-content'>
-                                        <section className='body-style'>
+                                    <div className='card-content-comments'>
+                                        <section className='body-style-comments'>
                                             {data.body}
                                             <div>{timestampToDate(data.timestamp)}</div>
                                             <div>{data.category}</div>
                                         </section>
-                                        <div className='card-button'>
-                                            <button className="btn btn-danger button-styling">
-                                                Delete Post
-                                            </button>
-                                            <button className="btn btn-success button-styling">
-                                                EditPost
-                                            </button>
-                                            <div className='buttons-position'>
-                                                <TiThumbsUp
-                                                    className='icon-size'
-                                                />
-                                                <TiThumbsDown
-                                                    className='icon-size'
-                                                />
-                                            </div>
-                                            <div className='votes'>{data.voteScore}</div>
+                                    </div>
+                                    <div className='card-button'>
+                                        <button className="btn btn-danger button-styling"
+                                                onClick={() => this.deletePost(data.id)}>
+                                            Delete Post
+                                        </button>
+                                        <button className="btn btn-success button-styling">
+                                            EditPost
+                                        </button>
+                                        <div className='buttons-position'>
+                                            <TiThumbsUp
+                                                className='icon-size'
+                                                onClick={() => {
+                                                    this.props.votesIncreaseDecrease(data.id, 'upVote')
+                                                }}
+                                            />
+                                            <TiThumbsDown
+                                                className='icon-size'
+                                                onClick={() => {
+                                                    this.props.votesIncreaseDecrease(data.id, 'downVote')
+                                                }}
+                                            />
                                         </div>
+                                        <div className='votes'>{data.voteScore}</div>
                                     </div>
                                 </div>
                             </div>
 
                         ))}
+                    </div>
+                    <div id="comment_form">
+                        <form onSubmit={this.handleSubmit}>
+                            <div>
+                                <textarea rows="10" name="comment" id="comment" placeholder="Comment"></textarea>
+                                <div className="red">
+                                    {this.state.errorContent}
+                                </div>
+                                <textarea rows="10" name="author" id="author" placeholder="Author"></textarea>
+                                <div className="red">
+                                    {this.state.errorAuthor}
+                                </div>
+
+                            </div>
+                            <div>
+                                <input type="submit" name="submit" value="Add Comment"></input>
+                            </div>
+                        </form>
                     </div>
                 </div>
             )
@@ -83,7 +142,10 @@ function mapStateToProps(state) {
 function mapDispatchToProps(dipatch) {
     return bindActionCreators({
         getComments: getComments,
-        editPost: editPost
+        editPost: editPost,
+        deletePost: deletePost,
+        votesIncreaseDecrease: votesIncreaseDecrease,
+        postEdit: postEdit
     }, dipatch);
 }
 

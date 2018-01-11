@@ -5,7 +5,6 @@ import {Field, reduxForm} from 'redux-form'
 import {bindActionCreators} from 'redux';
 import {editPost} from '../actions/postAction'
 import {putEditPost} from '../actions/postAction'
-import {getPosts} from '../actions/postAction'
 import serializeForm from 'form-serialize'
 import {Redirect} from 'react-router-dom'
 
@@ -61,9 +60,7 @@ class EditList extends Component {
             const id = params.id
             this.props.putEditPost(id, values, () => {
                 this.props.getPosts()
-                    .then(()=>{
-                        this.props.history.push('/');
-                    })
+                    .then(()=>{})
                 //this.props.history.push('/');
                 // this.setState({redirectToNewPage: true})
             });
