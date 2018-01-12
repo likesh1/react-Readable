@@ -11,6 +11,7 @@ import TiThumbsUp from 'react-icons/lib/ti/thumbs-up'
 import _ from 'lodash'
 import serializeForm from 'form-serialize'
 import {timestampToDate} from '../utils/dateChanger'
+import {withRouter} from 'react-router-dom'
 
 class ViewPost extends Component {
     state = {
@@ -149,4 +150,4 @@ function mapDispatchToProps(dipatch) {
     }, dipatch);
 }
 
-export default (connect(mapStateToProps, mapDispatchToProps)(ViewPost));
+export default withRouter((connect(mapStateToProps, mapDispatchToProps)(ViewPost)));

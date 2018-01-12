@@ -5,6 +5,7 @@ import {connect} from 'react-redux'
 import {bindActionCreators} from 'redux';
 import {Redirect} from 'react-router-dom'
 import {Link} from 'react-router-dom'
+import {withRouter} from 'react-router-dom'
 
 
 class CreateList extends Component {
@@ -120,10 +121,10 @@ function mapDispatchToProps(dipatch) {
     }, dipatch);
 }
 
-export default reduxForm({
-    validate: validate,
-    form: 'PostsNewForm'
-})(
+export default withRouter(reduxForm({
+        validate: validate,
+        form: 'PostsNewForm'
+    })(
     connect(null, mapDispatchToProps)(CreateList)
+    )
 )
-

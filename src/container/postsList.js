@@ -15,6 +15,7 @@ import {timestampToDate} from '../utils/dateChanger'
 import TiThumbsDown from 'react-icons/lib/ti/thumbs-down'
 import TiThumbsUp from 'react-icons/lib/ti/thumbs-up'
 import _ from 'lodash'
+import {withRouter} from 'react-router-dom'
 
 class PostsList extends Component {
     componentWillMount() {
@@ -101,7 +102,7 @@ class PostsList extends Component {
                                     <div className="card-body">
 
                                         <div className='card-content'>
-                                            <div onClick={() => this.toViewPost(data.id)} >{data.title}</div>
+                                            <div onClick={() => this.toViewPost(data.id)}>{data.title}</div>
                                             <h7 className='author-style'>Author: {data.author}</h7>
                                             <section className='body-style'>
                                                 {data.body}
@@ -165,4 +166,4 @@ function mapDispatchToProps(dipatch) {
     }, dipatch);
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(PostsList);
+export default withRouter(connect(mapStateToProps, mapDispatchToProps)(PostsList));

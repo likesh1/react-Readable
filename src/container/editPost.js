@@ -60,11 +60,11 @@ class EditList extends Component {
             console.log('valid')
             const id = params.id
             this.props.putEditPost(id, values, () => {
-                // this.props.getPosts()
-                //     .then(()=>{
-                //
-                //     })
-                this.props.history.push('/');
+                this.props.getPosts()
+                    .then(() => {
+                        this.props.history.push('/');
+                    })
+                //this.props.history.push('/');
                 // this.setState({redirectToNewPage: true})
             });
         }

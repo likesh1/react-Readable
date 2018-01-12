@@ -3,6 +3,7 @@ import {bindActionCreators} from 'redux';
 import {listByName} from '../actions/postAction'
 import {connect} from 'react-redux'
 import {getPosts} from '../actions/postAction'
+import {withRouter} from 'react-router-dom'
 
 class CategoryList extends Component {
     render() {
@@ -37,4 +38,4 @@ function mapDispatchToProps(dipatch) {
     }, dipatch);
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(CategoryList);
+export default withRouter(connect(mapStateToProps, mapDispatchToProps)(CategoryList));
