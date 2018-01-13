@@ -1,4 +1,10 @@
-import {GET_COMMENT, DELETE_COMMENT, VOTE_INCREAMENT_DECREMEN_COMMENT, ADD_COMMENT} from "../actions/commentAction";
+import {
+    GET_COMMENT,
+    DELETE_COMMENT,
+    VOTE_INCREAMENT_DECREMEN_COMMENT,
+    ADD_COMMENT,
+    GET_COMMENT_BY_ID
+} from "../actions/commentAction";
 
 export default function (state = [], action) {
     switch (action.type) {
@@ -23,6 +29,9 @@ export default function (state = [], action) {
             })];
         case ADD_COMMENT:
             return [[...state[0], action.payload.data]]
+        case GET_COMMENT_BY_ID:
+            console.log(action.payload)
+            return [action.payload.data]
     }
     return state;
 }

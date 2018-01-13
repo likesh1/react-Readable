@@ -2,6 +2,7 @@ import axios from 'axios'
 import {guid} from '../utils/guid'
 
 export const GET_COMMENT = "GET_COMMENT";
+export const GET_COMMENT_BY_ID = "GET_COMMENT_BY_ID";
 export const VOTE_INCREAMENT_DECREMEN_COMMENT = "VOTE_INCREAMENT_DECREMEN_COMMENT";
 export const DELETE_COMMENT = "DELETE_COMMENT";
 export const ADD_COMMENT = "ADD_COMMENT";
@@ -56,4 +57,26 @@ export function postEdit(parentId, body, author) {
         type: ADD_COMMENT,
         payload: request
     }
+}
+
+export function getCommentById(id) {
+    const url = `${ROOT_URL}/comments/${id}`
+    const request = axios.get(url)
+    return {
+        type: GET_COMMENT_BY_ID,
+        payload: request
+    }
+
+}
+
+export function updateComment(id, body, callback) {
+    console.log(id)
+    const data = {
+        timestamp: Date.now(),
+        body
+    }
+    const url = `${ROOT_URL}/comments/${id}`
+    const request = axios.put(url, data)
+        .then(() => callback());
+    console.log(request);
 }

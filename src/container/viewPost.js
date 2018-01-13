@@ -11,7 +11,6 @@ import TiThumbsUp from 'react-icons/lib/ti/thumbs-up'
 import _ from 'lodash'
 import serializeForm from 'form-serialize'
 import {timestampToDate} from '../utils/dateChanger'
-import {withRouter} from 'react-router-dom'
 
 class ViewPost extends Component {
     state = {
@@ -52,6 +51,10 @@ class ViewPost extends Component {
         this.props.deletePost(id);
     }
 
+    editComment(id) {
+        this.props.history.push('/editComment/' + id)
+    }
+
     render() {
 
         if (!_.isEmpty(this.props.posts) && !_.isEmpty(this.props.comment)) {
@@ -83,7 +86,8 @@ class ViewPost extends Component {
                                                 onClick={() => this.deletePost(data.id)}>
                                             Delete Post
                                         </button>
-                                        <button className="btn btn-success button-styling">
+                                        <button className="btn btn-success button-styling"
+                                                onClick={() => this.editComment(data.id)}>
                                             EditPost
                                         </button>
                                         <div className='buttons-position'>
@@ -150,4 +154,4 @@ function mapDispatchToProps(dipatch) {
     }, dipatch);
 }
 
-export default withRouter((connect(mapStateToProps, mapDispatchToProps)(ViewPost)));
+export default (connect(mapStateToProps, mapDispatchToProps)(ViewPost));
