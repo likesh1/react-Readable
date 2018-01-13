@@ -102,7 +102,7 @@ class PostsList extends Component {
                                     <div className="card-body">
 
                                         <div className='card-content'>
-                                            <div onClick={() => this.toViewPost(data.id)}>{data.title}</div>
+                                            <div className='post-title'onClick={() => this.toViewPost(data.id)}>{data.title}</div>
                                             <h7 className='author-style'>Author: {data.author}</h7>
                                             <section className='body-style'>
                                                 {data.body}

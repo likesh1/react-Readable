@@ -93,8 +93,20 @@
     flex-wrap: nowrap;
 }
 
+.sidebar {
+    width: 5%;
+    order: 1;
+    padding: 1em;
+}
+
 .main-content {
     width: 70%;
+    order: 1;
+    padding: 1em;
+}
+
+.main-content-comment {
+    width: 95%;
     order: 1;
     padding: 1em;
 }
@@ -178,4 +190,16 @@
 
 #comment_form div {
     margin-bottom: 8px;
+}
+
+.post-title {
+    font-size: 2em;
+    color: lightskyblue;
+    text-decoration: underline;
+}
+
+.post-title:hover {
+    font-size: 2em;
+    color: deepskyblue;
+    text-decoration: none;
 }
