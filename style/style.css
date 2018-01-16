@@ -203,3 +203,26 @@
     color: deepskyblue;
     text-decoration: none;
 }
+
+.navbar {
+    overflow: hidden;
+    background-color: #333;
+    position: fixed;
+    bottom: 0;
+    width: 100%;
+}
+
+.navbar div {
+    float: left;
+    display: block;
+    color: #f2f2f2;
+    text-align: center;
+    padding: 14px 16px;
+    text-decoration: none;
+    font-size: 17px;
+}
+
+.navbar div:hover {
+    background: #ddd;
+    color: black;
+}

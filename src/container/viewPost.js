@@ -11,11 +11,22 @@ import TiThumbsUp from 'react-icons/lib/ti/thumbs-up'
 import _ from 'lodash'
 import serializeForm from 'form-serialize'
 import {timestampToDate} from '../utils/dateChanger'
+import {Link} from 'react-router-dom'
+import {getPosts} from '../actions/postAction'
 
 class ViewPost extends Component {
     state = {
         errorAuthor: '',
         errorContent: '',
+    }
+
+    navig() {
+        // console.log(this.props)
+        this.props.getPosts()
+            .then(() => {
+                this.props.history.push('/')
+            })
+
     }
 
     componentWillMount() {
@@ -61,13 +72,21 @@ class ViewPost extends Component {
             console.log(this.props.comment)
             return (
                 <div>
+                    <div className="navbar">
+                        <div
+                             onClick={() => {
+                            this.navig()
+                             }}
+                        >Home
+                        </div>
+                    </div>
                     <div>
                         <h1>
                             {this.props.posts[0].title}
                         </h1>
                         <label>Posted by: {this.props.posts[0].author}</label>
                         <p>On: {timestampToDate(this.props.posts[0].timestamp)}</p>
-                        <h4>Category: {this.props.posts[0].category.toLocaleUpperCase()}</h4>
+                        <h4>Category: {this.props.posts[0].category}</h4>
                         <p>Content : {this.props.posts[0].body}</p>
                     </div>
                     <div className='card-up'>
@@ -146,6 +165,7 @@ function mapStateToProps(state) {
 
 function mapDispatchToProps(dipatch) {
     return bindActionCreators({
+        getPosts:getPosts,
         getComments: getComments,
         editPost: editPost,
         deletePost: deletePost,

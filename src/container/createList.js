@@ -64,35 +64,54 @@ class CreateList extends Component {
         });
     }
 
+    navig() {
+        // console.log(this.props)
+        this.props.getPosts()
+            .then(() => {
+                this.props.history.push('/')
+            })
+
+    }
 
     colors = ['react', 'redux', 'udacity'];
 
     render() {
 
         const {handleSubmit} = this.props;
-        return (
-            <form onSubmit={handleSubmit(this.onSubmit.bind(this))}>
-                <Field
-                    label='Title'
-                    name='title'
-                    component={this.renderField}
-                />
-                <Field
-                    label='Content'
-                    name='body'
-                    component={this.renderField}
-                />
-                <Field
-                    label='Author'
-                    name='author'
-                    component={this.renderField}
-                />
-                <Field
-                    name="category"
-                    label='Category'
-                    component={this.renderTagField}/>
-                <button type='sumbit' className='btn btn-success'>Submit</button>
-            </form>
+        return (<div>
+                <div className="navbar">
+                    <div
+                        onClick={() => {
+                            this.navig()
+                        }}
+                    >Home
+                    </div>
+                </div>
+                <div>
+                    <form onSubmit={handleSubmit(this.onSubmit.bind(this))}>
+                        <Field
+                            label='Title'
+                            name='title'
+                            component={this.renderField}
+                        />
+                        <Field
+                            label='Content'
+                            name='body'
+                            component={this.renderField}
+                        />
+                        <Field
+                            label='Author'
+                            name='author'
+                            component={this.renderField}
+                        />
+                        <Field
+                            name="category"
+                            label='Category'
+                            component={this.renderTagField}/>
+                        <button type='sumbit' className='btn btn-success'>Submit</button>
+                    </form>
+                </div>
+            </div>
         )
     }
 }

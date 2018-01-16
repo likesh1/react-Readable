@@ -6,6 +6,23 @@ import {getPosts} from '../actions/postAction'
 import {withRouter} from 'react-router-dom'
 
 class CategoryList extends Component {
+
+
+    categoryRoute(categoryName) {
+        this.props.listByName(categoryName)
+            .then(() => {
+                this.props.history.push(`/${categoryName}`)
+            })
+    }
+
+    categoryAll() {
+        this.props.getPosts()
+            .then(() => {
+                this.props.history.push(`/`)
+            })
+    }
+
+
     render() {
         console.log(this.props.category[0])
         if (this.props.category.length === 0) {
@@ -13,9 +30,14 @@ class CategoryList extends Component {
         } else {
             return (
                 <div className='category-list'>
-                    <li onClick={event => this.props.getPosts()} value='0'>All</li>
+                    <li onClick={() => {
+                        this.categoryAll()
+                    }} value='0'>All
+                    </li>
+                    {/*event => this.props.getPosts()*/}
                     {this.props.category[0].categories.map((data) =>
-                        <li onClick={event => this.props.listByName(data.name)} key={data.name}>
+                        <li onClick={() => this.categoryRoute(data.name)} key={data.name}>
+                            {/*event => this.props.listByName(data.name)*/}
                             {data.name.toUpperCase()}
                         </li>)
                     }

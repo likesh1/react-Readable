@@ -16,8 +16,7 @@ class EditList extends Component {
         content: '',
         author: '',
         errortitle: '',
-        errorContent: '',
-        redirectToNewPage: false
+        errorContent: ''
     }
 
     componentWillMount() {
@@ -64,8 +63,6 @@ class EditList extends Component {
                     .then(() => {
                         this.props.history.push('/');
                     })
-                //this.props.history.push('/');
-                // this.setState({redirectToNewPage: true})
             });
         }
     }
@@ -78,63 +75,80 @@ class EditList extends Component {
         this.setState({content: event})
     }
 
+    navig() {
+        // console.log(this.props)
+        this.props.getPosts()
+            .then(() => {
+                this.props.history.push('/')
+            })
+
+    }
 
     render() {
-        if (this.state.redirectToNewPage) {
-            <Redirect to='/'/>
-        }
         if (this.props.posts[0]) {
 
             // console.log(this.props.posts[0])
             // console.log(this.props.posts[0].title)
 
             return (
-
-                <form onSubmit={this.handleSubmit}>
+                <div>
                     <div>
-                        <label>Title</label>
-                        <div>
-                            <input
-                                name='title'
-                                className='form-control'
-                                // required={}
-                                value={this.state.title}
-                                onChange={event => {
-                                    this.settingValuesTitle(event.target.value, event.target.name)
+                        <div className="navbar">
+                            <div
+                                onClick={() => {
+                                    this.navig()
                                 }}
-                            />
-                            <div className="red">
-                                {this.state.errortitle}
+                            >Home
                             </div>
                         </div>
-
                     </div>
                     <div>
-                        <label>Content</label>
-                        <div>
-                            <input
-                                name='body'
-                                className='form-control'
-                                value={this.state.content}
-                                onChange={event => {
-                                    this.settingValuesContent(event.target.value, event.target.name)
-                                }}
-                            />
-                        </div>
-                        <div className="red">
-                            {this.state.errorContent}
-                        </div>
-                    </div>
-                    <div>
-                        <label>Author</label>
-                        <div>
-                            <p>{this.state.author}</p>
-                        </div>
-                        <button>Submit</button>
-                    </div>
+                        <form onSubmit={this.handleSubmit}>
+                            <div>
+                                <label>Title</label>
+                                <div>
+                                    <input
+                                        name='title'
+                                        className='form-control'
+                                        // required={}
+                                        value={this.state.title}
+                                        onChange={event => {
+                                            this.settingValuesTitle(event.target.value, event.target.name)
+                                        }}
+                                    />
+                                    <div className="red">
+                                        {this.state.errortitle}
+                                    </div>
+                                </div>
 
-                </form>
+                            </div>
+                            <div>
+                                <label>Content</label>
+                                <div>
+                                    <input
+                                        name='body'
+                                        className='form-control'
+                                        value={this.state.content}
+                                        onChange={event => {
+                                            this.settingValuesContent(event.target.value, event.target.name)
+                                        }}
+                                    />
+                                </div>
+                                <div className="red">
+                                    {this.state.errorContent}
+                                </div>
+                            </div>
+                            <div>
+                                <label>Author</label>
+                                <div>
+                                    <p>{this.state.author}</p>
+                                </div>
+                                <button>Submit</button>
+                            </div>
 
+                        </form>
+                    </div>
+                </div>
             )
         } else {
 

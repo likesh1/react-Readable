@@ -17,25 +17,20 @@ import TiThumbsUp from 'react-icons/lib/ti/thumbs-up'
 import _ from 'lodash'
 import {withRouter} from 'react-router-dom'
 
-class PostsList extends Component {
+class CategoryByNameList extends Component {
     componentWillMount() {
         console.log(this.props)
-        this.props.getPosts();
+        const {match: {params}} = this.props;
+        this.props.listByName(params.category);
         this.props.getCategoryList();
-    }
-
-    componentDidUpdate(prevProps, prevState) {
-        if (prevProps.post !== this.props.post) {
-            this.props.getPosts();
-        }
-    }
-
-    createList() {
-        this.props.history.push('/posts/new/create')
     }
 
     deletePost(id) {
         this.props.deletePost(id);
+    }
+
+    createList() {
+        this.props.history.push('/posts/new/create')
     }
 
     toViewPost(id, category) {
@@ -56,54 +51,55 @@ class PostsList extends Component {
 
     }
 
-
     render() {
         console.log(this.props.posts[0]);
         if (_.isEmpty(this.props.posts[0])) {
-            return (
-                <div>
-                    <div className="navbar">
-                        <div
-                            onClick={() => {
-                                this.navig()
-                            }}
-                        >Home
+            return (<div>
+
+                <div className="navbar">
+                    <div
+                        onClick={() => {
+                            this.navig()
+                        }}
+                    >Home
+                    </div>
+
+                </div>
+                <div className='body-styling'>
+                    <div className='side-content'>
+                        <div>
+                            <ul className="w3-ul w3-card w3-hoverable">
+                                <CategoryList
+                                    category={this.props.category}/>
+                            </ul>
                         </div>
                     </div>
-                    <div className='body-styling'>
-                        <div className='side-content'>
-                            <div>
-                                <ul className="w3-ul w3-card w3-hoverable">
-                                    <CategoryList
-                                        category={this.props.category}/>
-                                </ul>
+                    <div className='main-content'>
+                        <div className='sort-dropdown'>
+                            <div className='dropdown-sortlist'>Sort By: <select onChange={event => {
+                                this.props.changeOrder(event.target.value)
+                            }}>
+                                <option value='voteScore'>Vote</option>
+                                <option value='timestamp'>Dates</option>
+                            </select>
+                            </div>
+                            <div className='create-button'>
+                                <button className='btn btn-success'
+                                        onClick={() => {
+                                            this.createList()
+                                        }}>Create Post
+                                </button>
                             </div>
                         </div>
-                        <div className='main-content'>
-                            <div className='sort-dropdown'>
-                                <div className='dropdown-sortlist'>Sort By: <select onChange={event => {
-                                    this.props.changeOrder(event.target.value)
-                                }}>
-                                    <option value='voteScore'>Vote</option>
-                                    <option value='timestamp'>Dates</option>
-                                </select>
-                                </div>
-                                <div className='create-button'>
-                                    <button className='btn btn-success'
-                                            onClick={() => {
-                                                this.createList()
-                                            }}>Create Post
-                                    </button>
-                                </div>
-                            </div>
-                            <div className='card-up'>
-                                <div className="card">NO cards to show</div>
-                            </div>
+                        <div className='card-up'>
+                            <div className="card">NO cards to show</div>
                         </div>
                     </div>
-                </div>)
+                </div>
+            </div>)
         } else {
             return (<div>
+
                     <div className="navbar">
                         <div
                             onClick={() => {
@@ -111,6 +107,7 @@ class PostsList extends Component {
                             }}
                         >Home
                         </div>
+
                     </div>
                     <div className='body-styling'>
                         <div className='side-content'>
@@ -210,4 +207,4 @@ function mapDispatchToProps(dipatch) {
     }, dipatch);
 }
 
-export default withRouter(connect(mapStateToProps, mapDispatchToProps)(PostsList));
+export default withRouter(connect(mapStateToProps, mapDispatchToProps)(CategoryByNameList));

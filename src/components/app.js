@@ -3,6 +3,7 @@ import PostsList from "../container/postsList";
 import {Switch, Route} from 'react-router-dom'
 import createHistory from 'history/createBrowserHistory'
 import CreateList from "../container/createList";
+import CategoryByNameList from "../container/categoryByNameList";
 import EditList from "../container/editPost";
 import EditComment from "../container/editComment"
 import ViewPost from '../container/viewPost';
@@ -14,7 +15,7 @@ export default class App extends Component {
         return (
 
             <div>
-                {/*<ConnectedRouter history={history}>*/}
+
                 <Switch>
 
                     <Route
@@ -22,12 +23,11 @@ export default class App extends Component {
                         path='/'
                         render={() => (
                             <PostsList
-                                // history={history}
                             />
                         )}
                     />
                     <Route
-                        path='/viewPost/:id'
+                        path='/:category/:id'
                         render={(props) =>
                             <ViewPost
                                 {...props}
@@ -36,10 +36,19 @@ export default class App extends Component {
                         }
                     />
                     <Route
-                        path='/create'
+                        path='/:category'
+                        render={(props) =>
+                            <CategoryByNameList
+                                {...props}
+                            />
+                        }
+                    />
+                    <Route
+                        path='/posts/new/create'
+                        strict
+                        exact
                         render={() =>
                             <CreateList
-                                // history={history}
                             />
                         }
                     />
@@ -48,7 +57,6 @@ export default class App extends Component {
                         render={(props) =>
                             <EditList
                                 {...props}
-                                // history={history}
                             />
                         }
                     />
@@ -57,12 +65,10 @@ export default class App extends Component {
                         render={(props) =>
                             <EditComment
                                 {...props}
-                                // history={history}
                             />
                         }
                     />
                 </Switch>
-                {/*</ConnectedRouter>*/}
                 <link rel="stylesheet"
                       href="https://maxcdn.bootstrapcdn.com/bootstrap/latest/css/bootstrap.min.css"></link>
                 <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css"></link>

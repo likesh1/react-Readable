@@ -25,8 +25,7 @@ class EditComment extends Component {
 
     state = {
         content: '',
-        errorContent: '',
-        redirectToNewPage: false
+        errorContent: ''
     }
 
 
@@ -61,44 +60,62 @@ class EditComment extends Component {
         }
     }
 
+    navig() {
+        // console.log(this.props)
+        this.props.getPosts()
+            .then(() => {
+                this.props.history.push('/')
+            })
+
+    }
+
     settingValuesContent(event) {
         this.setState({content: event})
     }
 
     render() {
-        if (this.state.redirectToNewPage) {
-            <Redirect to='/'/>
-        }
         if (this.props.comment[0]) {
             return (
-
-                <form onSubmit={this.handleSubmit}>
+                <div>
                     <div>
-                        <label>Content</label>
-                        <div>
-                            <input
-                                name='body'
-                                className='form-control'
-                                value={this.state.content}
-                                onChange={event => {
-                                    this.settingValuesContent(event.target.value, event.target.name)
+                        <div className="navbar">
+                            <div
+                                onClick={() => {
+                                    this.navig()
                                 }}
-                            />
-                        </div>
-                        <div className="red">
-                            {this.state.errorContent}
+                            >Home
+                            </div>
                         </div>
                     </div>
                     <div>
-                        <label>Author</label>
-                        <div>
-                            <p>{this.props.comment[0].author}</p>
-                        </div>
-                        <button>Submit</button>
+                        <form onSubmit={this.handleSubmit}>
+                            <div>
+                                <label>Content</label>
+                                <div>
+                                    <input
+                                        name='body'
+                                        className='form-control'
+                                        value={this.state.content}
+                                        onChange={event => {
+                                            this.settingValuesContent(event.target.value, event.target.name)
+                                        }}
+                                    />
+                                </div>
+                                <div className="red">
+                                    {this.state.errorContent}
+                                </div>
+                            </div>
+                            <div>
+                                <label>Author</label>
+                                <div>
+                                    <p>{this.props.comment[0].author}</p>
+                                </div>
+                                <button>Submit</button>
+                            </div>
+
+                        </form>
                     </div>
-
-                </form>
-
+                </div>
             )
 
         } else {
