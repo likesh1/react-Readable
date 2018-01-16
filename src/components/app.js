@@ -8,6 +8,7 @@ import EditList from "../container/editPost";
 import EditComment from "../container/editComment"
 import ViewPost from '../container/viewPost';
 import {ConnectedRouter} from 'react-router-redux'
+import NotFound from "./NotFound";
 
 export default class App extends Component {
     render() {
@@ -45,7 +46,6 @@ export default class App extends Component {
                     />
                     <Route
                         path='/posts/new/create'
-                        strict
                         exact
                         render={() =>
                             <CreateList
@@ -68,6 +68,7 @@ export default class App extends Component {
                             />
                         }
                     />
+                    <Route path="*" component={NotFound} />
                 </Switch>
                 <link rel="stylesheet"
                       href="https://maxcdn.bootstrapcdn.com/bootstrap/latest/css/bootstrap.min.css"></link>
