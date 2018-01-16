@@ -5,6 +5,7 @@ import {connect} from 'react-redux'
 import {bindActionCreators} from 'redux';
 import {Redirect} from 'react-router-dom'
 import {Link} from 'react-router-dom'
+import {getPosts} from '../actions/postAction'
 import {withRouter} from 'react-router-dom'
 
 
@@ -13,9 +14,6 @@ class CreateList extends Component {
         console.log(this.props)
     }
 
-    state = {
-        redirectToNewPage: false
-    }
 
     renderField(field) {
         const className = `form-group ${field.meta.touched && field.meta.error ? 'has-danger' : ''}`
@@ -133,10 +131,15 @@ function validate(values) {
     return error;
 
 }
-
+function mapStateToProps(state) {
+    return {
+        posts: state.posts,
+    }
+}
 function mapDispatchToProps(dipatch) {
     return bindActionCreators({
-        createPost: createPost
+        createPost: createPost,
+        getPosts: getPosts
     }, dipatch);
 }
 

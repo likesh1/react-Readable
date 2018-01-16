@@ -28,7 +28,8 @@ https://github.com/udacity/reactnd-project-readable-starter
 Go to frontend folder and run
 
 ```
-> cd frontend; npm install
+> cd ReduxSimpleStarter-master;
+ npm install
 ```
 
 This should run for some minutes, be patient. When it finishes, type:
@@ -37,7 +38,7 @@ This should run for some minutes, be patient. When it finishes, type:
 > npm start
 ```
 
-A new window sould open in your default browser and you can play around with my app.
+You can use web-broswer with the Link: 'http://localhost:8080/'
 
 ## Libraries used
 

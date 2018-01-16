@@ -28,6 +28,31 @@ export default class App extends Component {
                         )}
                     />
                     <Route
+                        path='/posts/new/create'
+                        strict
+                        exact
+                        render={() =>
+                            <CreateList
+                            />
+                        }
+                    />
+                    <Route
+                        path='/editComment/:id'
+                        render={(props) =>
+                            <EditComment
+                                {...props}
+                            />
+                        }
+                    />
+                    <Route
+                        path='/editPost/:id'
+                        render={(props) =>
+                            <EditList
+                                {...props}
+                            />
+                        }
+                    />
+                    <Route
                         path='/:category/:id'
                         render={(props) =>
                             <ViewPost
@@ -44,31 +69,9 @@ export default class App extends Component {
                             />
                         }
                     />
-                    <Route
-                        path='/posts/new/create'
-                        exact
-                        render={() =>
-                            <CreateList
-                            />
-                        }
-                    />
-                    <Route
-                        path='/editPost/:id'
-                        render={(props) =>
-                            <EditList
-                                {...props}
-                            />
-                        }
-                    />
-                    <Route
-                        path='/editComment/:id'
-                        render={(props) =>
-                            <EditComment
-                                {...props}
-                            />
-                        }
-                    />
-                    <Route path="*" component={NotFound} />
+
+
+                    <Route path="*" component={NotFound}/>
                 </Switch>
                 <link rel="stylesheet"
                       href="https://maxcdn.bootstrapcdn.com/bootstrap/latest/css/bootstrap.min.css"></link>

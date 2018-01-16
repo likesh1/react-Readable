@@ -24,8 +24,9 @@ class CategoryList extends Component {
 
 
     render() {
+        const {category, getPosts, listByName} = this.props;
         console.log(this.props.category[0])
-        if (this.props.category.length === 0) {
+        if (category.length === 0) {
             return <div>Loading</div>
         } else {
             return (
@@ -34,10 +35,8 @@ class CategoryList extends Component {
                         this.categoryAll()
                     }} value='0'>All
                     </li>
-                    {/*event => this.props.getPosts()*/}
-                    {this.props.category[0].categories.map((data) =>
+                    {category[0].categories.map((data) =>
                         <li onClick={() => this.categoryRoute(data.name)} key={data.name}>
-                            {/*event => this.props.listByName(data.name)*/}
                             {data.name.toUpperCase()}
                         </li>)
                     }

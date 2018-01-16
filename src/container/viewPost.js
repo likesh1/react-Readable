@@ -21,7 +21,6 @@ class ViewPost extends Component {
     }
 
     navig() {
-        // console.log(this.props)
         this.props.getPosts()
             .then(() => {
                 this.props.history.push('/')
@@ -63,13 +62,14 @@ class ViewPost extends Component {
     }
 
     editComment(id) {
-        this.props.history.push('/editComment/' + id)
+        this.props.history.push(`/editComment/${id}`)
     }
 
     render() {
 
         if (!_.isEmpty(this.props.posts) && !_.isEmpty(this.props.comment)) {
             console.log(this.props.comment)
+            console.log(this.props.comment[0])
             return (
                 <div>
                     <div className="navbar">

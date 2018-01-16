@@ -7,11 +7,12 @@ import {
 } from "../actions/commentAction";
 
 export default function (state = [], action) {
+    let x;
     switch (action.type) {
         case GET_COMMENT:
             return [action.payload.data]
         case DELETE_COMMENT:
-            const x = state[0].filter(
+            x= state[0].filter(
                 function (value) {
                     if (!(value.id === action.payload.data.id)) {
                         return value;

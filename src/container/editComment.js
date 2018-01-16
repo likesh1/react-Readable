@@ -7,6 +7,7 @@ import {editPost} from '../actions/postAction'
 import {connect} from 'react-redux'
 import serializeForm from 'form-serialize'
 import {timestampToDate} from '../utils/dateChanger'
+import {getPosts} from '../actions/postAction'
 
 class EditComment extends Component {
     componentWillMount() {
@@ -128,6 +129,7 @@ class EditComment extends Component {
 
 function mapStateToProps(state) {
     return {
+        post:state.post,
         comment: state.comment
     }
 }
@@ -137,6 +139,7 @@ function mapDispatchToProps(dipatch) {
         getCommentById: getCommentById,
         updateComment: updateComment,
         editPost: editPost,
+        getPosts: getPosts,
         getComments: getComments
     }, dipatch);
 }
