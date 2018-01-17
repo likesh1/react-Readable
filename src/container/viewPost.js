@@ -1,10 +1,12 @@
 import React, {Component} from 'react';
 import {bindActionCreators} from 'redux';
 import {getComments} from '../actions/commentAction'
-import {deletePost} from '../actions/commentAction'
-import {votesIncreaseDecrease} from '../actions/commentAction'
+import {deleteComment} from '../actions/commentAction'
+import {votesIncreaseDecreaseComment} from '../actions/commentAction'
 import {postEdit} from '../actions/commentAction'
 import {editPost} from '../actions/postAction'
+import {votesIncreaseDecrease} from '../actions/postAction'
+import {deletePost} from '../actions/postAction'
 import {connect} from 'react-redux'
 import TiThumbsDown from 'react-icons/lib/ti/thumbs-down'
 import TiThumbsUp from 'react-icons/lib/ti/thumbs-up'
@@ -13,6 +15,7 @@ import serializeForm from 'form-serialize'
 import {timestampToDate} from '../utils/dateChanger'
 import {Link} from 'react-router-dom'
 import {getPosts} from '../actions/postAction'
+import NotFound from "../components/NotFound";
 
 class ViewPost extends Component {
     state = {
@@ -57,16 +60,33 @@ class ViewPost extends Component {
         }
     }
 
-    deletePost(id) {
-        this.props.deletePost(id);
+    deleteComment(id) {
+        this.props.deleteComment(id);
     }
 
     editComment(id) {
         this.props.history.push(`/editComment/${id}`)
     }
+    editPost(id) {
+        this.props.history.push(`/editPost/${id}`)
+    }
+
+    deletePost(id) {
+        console.log(id)
+        this.props.deletePost(id).then(() => {
+            this.props.getPosts()
+                .then(() => {
+                    this.props.history.push('/')
+                })
+        })
+    }
 
     render() {
-
+        if (_.isEmpty(this.props.posts)) {
+            return (
+                <NotFound/>
+            )
+        }
         if (!_.isEmpty(this.props.posts) && !_.isEmpty(this.props.comment)) {
             console.log(this.props.comment)
             console.log(this.props.comment[0])
@@ -74,20 +94,47 @@ class ViewPost extends Component {
                 <div>
                     <div className="navbar">
                         <div
-                             onClick={() => {
-                            this.navig()
-                             }}
+                            onClick={() => {
+                                this.navig()
+                            }}
                         >Home
                         </div>
                     </div>
-                    <div>
-                        <h1>
-                            {this.props.posts[0].title}
-                        </h1>
-                        <label>Posted by: {this.props.posts[0].author}</label>
-                        <p>On: {timestampToDate(this.props.posts[0].timestamp)}</p>
-                        <h4>Category: {this.props.posts[0].category}</h4>
-                        <p>Content : {this.props.posts[0].body}</p>
+                    <div className='card-body'>
+                        <div className='card-content-comments'>
+                            <h1>
+                                {this.props.posts[0].title}
+                            </h1>
+                            <label>Posted by: {this.props.posts[0].author}</label>
+                            <p>On: {timestampToDate(this.props.posts[0].timestamp)}</p>
+                            <h4>Category: {this.props.posts[0].category}</h4>
+                            <p>Content : {this.props.posts[0].body}</p>
+                        </div>
+                        <div className='card-button'>
+                            <button className="btn btn-danger button-styling"
+                                    onClick={() => this.deletePost(this.props.posts[0].id)}>
+                                Delete Post
+                            </button>
+                            <button className="btn btn-success button-styling"
+                                    onClick={() => this.editPost(this.props.posts[0].id)}>
+                                EditPost
+                            </button>
+                            <div className='buttons-position'>
+                                <TiThumbsUp
+                                    className='icon-size'
+                                    onClick={() => {
+                                        this.props.votesIncreaseDecrease(this.props.posts[0].id, 'upVote')
+                                    }}
+                                />
+                                <TiThumbsDown
+                                    className='icon-size'
+                                    onClick={() => {
+                                        this.props.votesIncreaseDecrease(this.props.posts[0].id, 'downVote')
+                                    }}
+                                />
+                            </div>
+                            <div className='votes'>{this.props.posts[0].voteScore}</div>
+                        </div>
                     </div>
                     <div className='card-up'>
                         {this.props.comment[0].map((data) => (
@@ -102,7 +149,7 @@ class ViewPost extends Component {
                                     </div>
                                     <div className='card-button'>
                                         <button className="btn btn-danger button-styling"
-                                                onClick={() => this.deletePost(data.id)}>
+                                                onClick={() => this.deleteComment(data.id)}>
                                             Delete Post
                                         </button>
                                         <button className="btn btn-success button-styling"
@@ -113,13 +160,13 @@ class ViewPost extends Component {
                                             <TiThumbsUp
                                                 className='icon-size'
                                                 onClick={() => {
-                                                    this.props.votesIncreaseDecrease(data.id, 'upVote')
+                                                    this.props.votesIncreaseDecreaseComment(data.id, 'upVote')
                                                 }}
                                             />
                                             <TiThumbsDown
                                                 className='icon-size'
                                                 onClick={() => {
-                                                    this.props.votesIncreaseDecrease(data.id, 'downVote')
+                                                    this.props.votesIncreaseDecreaseComment(data.id, 'downVote')
                                                 }}
                                             />
                                         </div>
@@ -165,11 +212,13 @@ function mapStateToProps(state) {
 
 function mapDispatchToProps(dipatch) {
     return bindActionCreators({
-        getPosts:getPosts,
+        getPosts: getPosts,
         getComments: getComments,
         editPost: editPost,
+        deleteComment: deleteComment,
         deletePost: deletePost,
-        votesIncreaseDecrease: votesIncreaseDecrease,
+        votesIncreaseDecreaseComment: votesIncreaseDecreaseComment,
+        votesIncreaseDecrease:votesIncreaseDecrease,
         postEdit: postEdit
     }, dipatch);
 }

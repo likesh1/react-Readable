@@ -57,6 +57,12 @@ export function deletePost(id) {
     }
 }
 
+export function deletePostCallback(id, callback) {
+    const url = `${ROOT_URL}/posts/${id}`
+    const request = axios.delete(url).then(() => callback)
+    console.log(request)
+}
+
 export function editPost(id) {
     console.log(id)
     const url = `${ROOT_URL}/posts/${id}`
@@ -71,8 +77,8 @@ export function editPost(id) {
 export function putEditPost(id, params, callback) {
     console.log(id);
     console.log(params);
-    const {title,body}=params;
-    const data={
+    const {title, body} = params;
+    const data = {
         title,
         body
     }

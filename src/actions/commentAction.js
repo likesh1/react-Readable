@@ -21,7 +21,7 @@ export function getComments(id) {
     }
 }
 
-export function deletePost(id) {
+export function deleteComment(id) {
     console.log(id);
     const url = `${ROOT_URL}/comments/${id}`;
     const request = axios.delete(url);
@@ -31,7 +31,7 @@ export function deletePost(id) {
     }
 }
 
-export function votesIncreaseDecrease(id, voteType) {
+export function votesIncreaseDecreaseComment(id, voteType) {
     console.log(id)
     console.log(voteType)
     const url = `${ROOT_URL}/comments/${id}`
