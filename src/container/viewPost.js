@@ -5,7 +5,7 @@ import {deleteComment} from '../actions/commentAction'
 import {votesIncreaseDecreaseComment} from '../actions/commentAction'
 import {postEdit} from '../actions/commentAction'
 import {editPost} from '../actions/postAction'
-import {votesIncreaseDecrease} from '../actions/postAction'
+import {votesIncreaseDecreaseOnePost} from '../actions/postAction'
 import {deletePost} from '../actions/postAction'
 import {connect} from 'react-redux'
 import TiThumbsDown from 'react-icons/lib/ti/thumbs-down'
@@ -126,13 +126,13 @@ class ViewPost extends Component {
                                 <TiThumbsUp
                                     className='icon-size'
                                     onClick={() => {
-                                        this.props.votesIncreaseDecrease(this.props.posts[0].id, 'upVote')
+                                        this.props.votesIncreaseDecreaseOnePost(this.props.posts[0].id, 'upVote')
                                     }}
                                 />
                                 <TiThumbsDown
                                     className='icon-size'
                                     onClick={() => {
-                                        this.props.votesIncreaseDecrease(this.props.posts[0].id, 'downVote')
+                                        this.props.votesIncreaseDecreaseOnePost(this.props.posts[0].id, 'downVote')
                                     }}
                                 />
                             </div>
@@ -221,7 +221,7 @@ function mapDispatchToProps(dipatch) {
         deleteComment: deleteComment,
         deletePost: deletePost,
         votesIncreaseDecreaseComment: votesIncreaseDecreaseComment,
-        votesIncreaseDecrease:votesIncreaseDecrease,
+        votesIncreaseDecreaseOnePost:votesIncreaseDecreaseOnePost,
         postEdit: postEdit
     }, dipatch);
 }

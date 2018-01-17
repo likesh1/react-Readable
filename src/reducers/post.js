@@ -1,6 +1,6 @@
 import {
     GET_POST, LIST_UPDATE, CHANGE_ORDER, VOTE_INCREAMENT_DECREMENT, DELETE_LIST_ITEM,
-    EDIT_LIST_ITEM, PUT_EDIT_POST
+    EDIT_LIST_ITEM, PUT_EDIT_POST,VOTE_INCREAMENT_DECREMENT_ONE_POST
 } from '../actions/postAction'
 import _ from 'lodash'
 
@@ -9,16 +9,15 @@ export default function (state = [], action) {
         case GET_POST:
             return [_.sortByOrder(action.payload.data, ['voteScore'], ['desc']), ...state];
         case VOTE_INCREAMENT_DECREMENT:
-            if (state.length !== 1) {
             return [_.sortByOrder(state[0].map((data) => {
                 if (action.payload.data.id === data.id) {
                     return action.payload.data
                 } else {
                     return data
                 }
-            }), ['voteScore'], ['desc'])];}else{
-                return [action.payload.data]
-            }
+            }), ['voteScore'], ['desc'])];
+        case VOTE_INCREAMENT_DECREMENT_ONE_POST:
+            return [action.payload.data]
         case CHANGE_ORDER:
             return [_.sortByOrder(state[0], [`${action.payload}`], ['desc'])];
         case LIST_UPDATE:

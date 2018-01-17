@@ -4,6 +4,7 @@ import {guid} from '../utils/guid'
 export const GET_POST = "GET_POST";
 export const CREATE_POST = "CREATE_POST";
 export const VOTE_INCREAMENT_DECREMENT = "VOTE_INCREAMENT_DECREMENT";
+export const VOTE_INCREAMENT_DECREMENT_ONE_POST = "VOTE_INCREAMENT_DECREMENT_ONE_POST";
 export const CHANGE_ORDER = 'CHANGE_ORDER'
 export const DELETE_LIST_ITEM = 'DELETE_LIST_ITEM'
 export const EDIT_LIST_ITEM = 'EDIT_LIST_ITEM'
@@ -28,6 +29,15 @@ export function votesIncreaseDecrease(id, voteType) {
     const request = axios.post(url, {option: voteType})
     return {
         type: VOTE_INCREAMENT_DECREMENT,
+        payload: request
+    }
+}
+
+export function votesIncreaseDecreaseOnePost(id, voteType) {
+    const url = `${ROOT_URL}/posts/${id}`
+    const request = axios.post(url, {option: voteType})
+    return {
+        type: VOTE_INCREAMENT_DECREMENT_ONE_POST,
         payload: request
     }
 }
