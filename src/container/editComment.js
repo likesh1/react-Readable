@@ -8,6 +8,8 @@ import {connect} from 'react-redux'
 import serializeForm from 'form-serialize'
 import {timestampToDate} from '../utils/dateChanger'
 import {getPosts} from '../actions/postAction'
+import _ from 'lodash'
+import NotFound from "../components/NotFound";
 
 class EditComment extends Component {
     componentWillMount() {
@@ -75,6 +77,13 @@ class EditComment extends Component {
     }
 
     render() {
+        console.log(this.props.comment[0])
+        if (_.isEmpty(this.props.comment[0])) {
+            return (
+                <NotFound/>
+            )
+        }
+
         if (this.props.comment[0]) {
             return (
                 <div>
