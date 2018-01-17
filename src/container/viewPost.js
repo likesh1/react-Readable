@@ -82,7 +82,10 @@ class ViewPost extends Component {
     }
 
     render() {
-        if (_.isEmpty(this.props.posts)) {
+        console.log(this.props.posts.length)
+        console.log(this.props.posts)
+        console.log(_.isEmpty(this.props.posts[0]))
+        if (_.isEmpty(this.props.posts[0])) {
             return (
                 <NotFound/>
             )
